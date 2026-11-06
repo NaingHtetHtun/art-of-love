@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>Art of Love — For You ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body class="is-loading" data-mode="tunnel">
+    <!-- Romantic Love Loading Screen (Shown until all 30 photos are 100% loaded) -->
+    <div id="love-loader" role="status" aria-live="polite">
+      <div class="loader-ambient-glow"></div>
+      <div class="loader-petals" aria-hidden="true">
+        <span>❤</span>
+        <span>✦</span>
+        <span>❤</span>
+        <span>✦</span>
+        <span>❤</span>
+        <span>✦</span>
+      </div>
+      <div class="loader-card">
+        <div class="heart-orbit-wrap">
+          <div class="orbit-ring orbit-ring-1"></div>
+          <div class="orbit-ring orbit-ring-2"></div>
+          <div class="heart-core">
+            <svg viewBox="0 0 32 29.6" class="heart-svg">
+              <path
+                d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <span class="loader-badge">ART OF LOVE • FOR YOU</span>
+        <h2 class="loader-title">
+          မင်းအတွက် အမှတ်တရလေးတွေ<br />ပြင်ဆင်နေပါတယ်...
+        </h2>
+        <p class="loader-subtitle">Gathering every precious moment with love</p>
+
+        <div class="loader-progress-track">
+          <div id="loader-bar" class="loader-progress-fill"></div>
+        </div>
+        <div class="loader-stats">
+          <span id="loader-count">0 / 30 Memories</span>
+          <span id="loader-percent">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-screen Three.js 3D Tunnel / Ring / Gallery Canvas -->
+    <div id="canvas-container" class="ui-layer"></div>
+
+    <!-- Top Minimal Bar -->
+    <header id="top-bar" class="ui-layer">
+      <div class="brand-pill">
+        <span class="pulse-dot"></span>
+        <span class="brand-text">ART OF LOVE</span>
+      </div>
+      <div class="top-controls">
+        <span class="hint-text">Swipe or scroll • Tap any photo for note</span>
+        <button id="toggle-play-btn" class="icon-pill" title="Pause / Play Motion">
+          <span id="play-icon">❚❚</span>
+          <span id="play-label">Auto Glide</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Center Portal Overlay (Positioned inside the Tunnel's Dark Center Box) -->
+    <main id="center-portal" class="ui-layer">
+      <div id="portal-content" class="portal-box">
+        <span id="portal-tag" class="portal-tag">CHAPTER 01 • THE BEGINNING</span>
+        <h1 id="portal-title" class="portal-title">
+          မင်းရဲ့ အပြုံးတစ်ချက်က<br />ငါ့ကမ္ဘာတစ်ခုလုံးပါပဲ
+        </h1>
+        <p id="portal-subtitle" class="portal-subtitle">
+          In a tunnel of a million moments, every single frame leads back to you.
+        </p>
+      </div>
+    </main>
+
+    <!-- Hover Tooltip Pill for Desktop Photo Cards -->
+    <div id="card-tooltip" class="card-tooltip hidden">
+      <span id="tooltip-title">First Glance</span>
+      <span class="tooltip-action">Tap to read ❤️</span>
+    </div>
+
+    <!-- Bottom Animos.app-Style Layout Switcher Dock -->
+    <nav id="mode-dock" class="ui-layer" aria-label="3D Layout Mode">
+      <button class="dock-btn active" data-mode="tunnel">
+        <span class="dock-icon">▣</span>
+        <span>Tunnel</span>
+      </button>
+      <button class="dock-btn" data-mode="ring">
+        <span class="dock-icon">◎</span>
+        <span>3D Ring</span>
+      </button>
+      <button class="dock-btn" data-mode="gallery">
+        <span class="dock-icon">❖</span>
+        <span>Gallery</span>
+      </button>
+    </nav>
+
+    <!-- Tap-to-View Photo & Love Note Lightbox Modal -->
+    <div id="memory-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+      <div id="modal-card" class="modal-card">
+        <button id="modal-close" class="modal-close" aria-label="Close">✕</button>
+        <div class="modal-image-wrap">
+          <img id="modal-img" src="" alt="Memory Portrait" />
+        </div>
+        <div class="modal-body">
+          <span id="modal-date" class="modal-date">MEMORY 01 • MY UNIVERSE</span>
+          <h2 id="modal-title" class="modal-title">First Glance</h2>
+          <p id="modal-note" class="modal-note"></p>
+          <div class="modal-nav">
+            <button id="modal-prev" class="nav-pill">← Prev</button>
+            <span id="modal-counter" class="modal-counter">01 / 30</span>
+            <button id="modal-next" class="nav-pill">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
